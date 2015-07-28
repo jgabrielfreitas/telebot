@@ -1,0 +1,14 @@
+// to change URL and active bot
+// see this: https://github.com/jgabrielfreitas/telebot
+
+Click Deploy, enter your Google credentials, and your app should be installed to Google's servers.
+
+Open your browser and go to https://project-id.appspot.com/me (replace project-id with the Project ID you set on step 16).
+
+Wait until you see a long text with "ok": true and your bot's name. This could take a minute or so, please reload if it does not succeed.
+
+Now, go to https://project-id.appspot.com/set_webhook?url=https://project-id.appspot.com/webhook (replace both project-ids with the Project ID you set on step 16).
+
+You should see Webhook was set.
+
+// to change Webhook

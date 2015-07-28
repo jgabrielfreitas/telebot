@@ -12,9 +12,10 @@ import multipart
 # standard app engine imports
 from google.appengine.api import urlfetch
 from google.appengine.ext import ndb
+from time import gmtime, strftime
 import webapp2
 
-TOKEN = 'YOUR_BOT_TOKEN_HERE'
+TOKEN = '99140749:AAE1fL5I7Lww5Fcb3h59sJBQHWMTlNMN3AY'
 
 BASE_URL = 'https://api.telegram.org/bot' + TOKEN + '/'
 
@@ -89,7 +90,7 @@ class WebhookHandler(webapp2.RequestHandler):
                     'chat_id': str(chat_id),
                     'text': msg.encode('utf-8'),
                     'disable_web_page_preview': 'true',
-                    'reply_to_message_id': str(message_id),
+                    #'reply_to_message_id': str(message_id),
                 })).read()
             elif img:
                 resp = multipart.post_multipart(BASE_URL + 'sendPhoto', [
@@ -112,6 +113,12 @@ class WebhookHandler(webapp2.RequestHandler):
             elif text == '/stop':
                 reply('Bot disabled')
                 setEnabled(chat_id, False)
+            elif text == '/hi':
+                reply('Hi human!')
+            elif text == '/hello':
+                reply('Hello human!')
+            elif text == '/timenow':
+                reply(strftime("%H:%M %d/%m", gmtime()))
             elif text == '/image':
                 img = Image.new('RGB', (512, 512))
                 base = random.randint(0, 16777216)
@@ -121,30 +128,45 @@ class WebhookHandler(webapp2.RequestHandler):
                 img.save(output, 'JPEG')
                 reply(img=output.getvalue())
             else:
-                reply('What command?')
+                reply('I can\'t understand this command, try: \n/timenow\n/hi\n/hello\n/image ')
 
         # CUSTOMIZE FROM HERE
 
         elif 'who are you' in text:
-            reply('telebot starter kit, created by yukuku: https://github.com/yukuku/telebot')
+            reply('I\'m HappyBrBot, created by @JGabrielFreitas')
         elif 'what time' in text:
             reply('look at the top-right corner of your screen!')
         else:
-            if getEnabled(chat_id):
-                try:
-                    resp1 = json.load(urllib2.urlopen('http://www.simsimi.com/requestChat?lc=en&ft=1.0&req=' + urllib.quote_plus(text.encode('utf-8'))))
-                    back = resp1.get('res')
-                except urllib2.HTTPError, err:
-                    logging.error(err)
-                    back = str(err)
-                if not back:
-                    reply('okay...')
-                elif 'I HAVE NO RESPONSE' in back:
-                    reply('you said something with no meaning')
-                else:
-                    reply(back)
+        #if getEnabled(chat_id):
+            base = random.randint(0, 5)
+            if base == 0:
+                reply('kkkkkkkkkkkkkkkkkkkk')
+            elif base == 1:
+                reply('Huehuehuehue')
+            elif base == 2:
+                reply('hahahahahaha')
+            elif base == 3:
+                reply('hehehehehe')
+            elif base == 4:
+                reply('jajajjaja')
+            elif base == 5:
+                reply('rsrsrs')
             else:
-                logging.info('not enabled for chat_id {}'.format(chat_id))
+                reply('ohhh man, you\'re so funny... UHEUHEUHEUHE')
+            #try:
+            #    resp1 = json.load(urllib2.urlopen('http://www.simsimi.com/requestChat?lc=en&ft=1.0&req=' + urllib.quote_plus(text.encode('utf-8'))))
+            #    back = resp1.get('res')
+            #except urllib2.HTTPError, err:
+            #    logging.error(err)
+            #    back = str(err)
+            #if not back:
+            #    reply('okay...')
+            #elif 'I HAVE NO RESPONSE' in back:
+            #    reply('you said something with no meaning')
+            #else:
+            #    reply(back)
+        #else:
+        #    logging.info('not enabled for chat_id {}'.format(chat_id))
 
 
 app = webapp2.WSGIApplication([
